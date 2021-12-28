@@ -4,56 +4,8 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
-
-$this->registerCssFile('https://unpkg.com/leaflet@1.7.1/dist/leaflet.css', [    
-    'integrity' => 'sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==',
-    'crossorigin' => "",
-]);
-$this->registerJsFile('https://unpkg.com/leaflet@1.7.1/dist/leaflet.js', [
-'position' => $this::POS_HEAD,    
-    'integrity' => 'sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==',
-    'crossorigin' => "",
-]);
-
 ?>
 
-<div id="map" style="width: 600px; height: 400px;"></div>
-<script>
-
-	var map = L.map('map').setView([51.505, -0.09], 13);
-
-	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: '',
-		id: 'mapbox/streets-v11',
-		tileSize: 512,
-		zoomOffset: -1
-	}).addTo(map);
-
-	var marker = L.marker([51.5, -0.09]).addTo(map)
-		.bindPopup('<b>Hello world!</b><br />I am a popup.');
-        
-
-	
-
-	var polygon = L.polygon([
-		[51.509, -0.08],
-		[51.503, -0.06],
-		[51.51, -0.047]
-	]).addTo(map).bindPopup('I am a polygon.');
-
-
-	
-
-	function onMapClick(e) {
-            console.log(e.latlng);
-                marker.setLatLng(e.latlng);
-                marker.openPopup();
-	}
-
-	map.on('click', onMapClick);
-
-</script>
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent">

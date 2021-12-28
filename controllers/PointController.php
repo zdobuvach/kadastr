@@ -19,7 +19,7 @@ class PointController extends \yii\web\Controller {
     public function actionInside() {
         return $this->viewPointsToMap('getPointFromCheckPattern', 'inside');
     }
-    
+
     public function actionOutside() {
         return $this->viewPointsToMap('getPointFromCheckPattern', 'outside');
     }
@@ -40,10 +40,12 @@ class PointController extends \yii\web\Controller {
                 'attributes' => ['check'],
             ],
         ]);
-
+        $checkPattern = $checkPattern ? $checkPattern : 'All';
+        $title = 'Points ' . $checkPattern;
         return $this->render('index', ['provider' => $provider,
                     'mapURL' => Yii::$app->params['cadaster']['mapURL'],
-                    'poligon' => json_encode($this->poligon)
+                    'poligon' => json_encode($this->poligon),
+                    'title' => $title
         ]);
     }
 
@@ -53,7 +55,7 @@ class PointController extends \yii\web\Controller {
             $check = $this->checkPointInPolygon($point, $poligon);
             //echo $check;
             //var_dump(!$checkPattern || ($checkPattern == $check));
-            if(!$checkPattern || ($checkPattern == $check)){
+            if (!$checkPattern || ($checkPattern == $check)) {
                 $data[$key]['check'] = $check;
                 $result[] = $data[$key];
             }

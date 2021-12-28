@@ -20,10 +20,11 @@ $this->registerJsFile('https://unpkg.com/leaflet@1.7.1/dist/leaflet.js', [
     'integrity' => 'sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==',
     'crossorigin' => "",
 ]);
+$this->title = $title;
 ?>
 
-
 <div class="body-content">
+    <h1><?= Html::encode($title) ?></h1>
 
     <div class="row">
         <div class="col-lg-3">
