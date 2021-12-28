@@ -79,6 +79,10 @@ http://localhost:8000/point/outside
 
 ## done
 
+### config
+
+config/cadaster.php
+
 ### db tables
 
 test_quartsoft.cadastral_numbers
