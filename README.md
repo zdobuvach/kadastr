@@ -79,15 +79,15 @@ http://localhost:8000/point/outside
 
 ## done
 
-### config
-
-config/cadaster.php
-
 ### db tables
 
 test_quartsoft.cadastral_numbers
 
 ### Yii
+
+### config
+
+config/cadaster.php
 
 #### Migration
 
@@ -101,3 +101,7 @@ controllers/PointController.php <br>
 
 models/Cadaster.php <br>
 models/CadastralNumbers.php <br>
+
+#### views
+
+views/point/index.php
