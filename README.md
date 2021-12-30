@@ -77,6 +77,18 @@ http://localhost:8000/point/inside
 
 http://localhost:8000/point/outside
 
+### run webpage cropping the shape along original the contour
+
+> recalculated with each page opening
+
+http://localhost:8000/point/contour  <br>
+
+####  run webpage cropping the shape along my the contour
+
+http://localhost:8000/point/my  <br> 
+
+
+
 ## done
 
 ### db tables
@@ -101,6 +113,7 @@ controllers/PointController.php <br>
 
 models/Cadaster.php <br>
 models/CadastralNumbers.php <br>
+models/Contour.php <br>
 
 #### views
 
