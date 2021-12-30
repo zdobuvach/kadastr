@@ -81,6 +81,8 @@ http://localhost:8000/point/outside
 
 > recalculated with each page opening
 
+ >> you can enable, disable layers of polygons by clicking on the layers icon in the left corner of the map
+
 http://localhost:8000/point/contour  <br>
 
 ####  run webpage cropping the shape along my the contour
