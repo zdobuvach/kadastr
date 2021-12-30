@@ -42,8 +42,8 @@ $this->title = $title;
             ?>
 
         </div>
-        <div style="col-lg-9">            
-            <div id="map" style="width: 600px; height: 600px;"></div>
+        <div class="col-lg-9">            
+            <div id="map" style="width: 100%; height: 600px;"></div>
         </div>
 
 
@@ -52,7 +52,8 @@ $this->title = $title;
 </div>
 <script type="text/javascript">
     var poligonVertex = <?= $poligon ?>;
-
+    poligonVertex = poligonVertex.map(item => item.reverse());
+    console.log(poligonVertex);
     var mbAttr = '';
     var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
     var hillUrl = 'http://tiles.wmflabs.org/hillshading/{z}/{x}/{y}.png';
@@ -60,53 +61,47 @@ $this->title = $title;
     //var ukrUrl = 'https://m1.land.gov.ua/map/ortho10k_all/{z}/{x}/{y}.jpg';
     //var ukrUrl = 'http://ows.mundialis.de/services/service?';
 
-    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
-    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
-    var hill = L.tileLayer(hillUrl, {id: 'mapbox/hill', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: - 1, attribution: mbAttr});
+    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: - 1, attribution: mbAttr});
+    var hill = L.tileLayer(hillUrl, {id: 'mapbox/hill', tileSize: 512, zoomOffset: - 1, attribution: mbAttr});
     //var ukr = L.tileLayer(ukrUrl, {id: '10', tileSize: 256, zoomOffset: -1, attribution: mbAttr});
 
     var ukr = L.tileLayer.wms(ukrUrl, {layers: 'kadastr', format: 'image/png'});
     //var ukr = L.tileLayer.wms(ukrUrl, {layers: 'TOPO-OSM-WMS'});
     var map = L.map('map', {
-        center: poligonVertex[0],
-        zoom: 12,
-        layers: [streets, ukr]
+    center: poligonVertex[0],
+            zoom: 12,
+            layers: [streets, ukr]
     });
-
     var baseLayers = {
-        'Grayscale': grayscale,
-        'Streets': streets,
-        'Hill': hill,
-        //'Kadastr': ukr
+    'Grayscale': grayscale,
+            'Streets': streets,
+            'Hill': hill,
+            //'Kadastr': ukr
     };
     var overlayMaps = {
-        "Kadastr": ukr
+    "Kadastr": ukr
     };
-
     var layerControl = L.control.layers(baseLayers, overlayMaps).addTo(map);
-
     var marker = L.marker(poligonVertex[0]).addTo(map)
             .bindPopup('<b>Hello world!</b><br />I am a popup.');
     map.removeLayer(marker);
-
-    var polygon = L.polygon(
-            poligonVertex
-            ).addTo(map).bindPopup('I am a polygon.');
-
-    function cMarker(clng, clat, cnumber) {
-        if (!map.hasLayer(marker)) {            
-            map.addLayer(marker);
-        }
-        marker.setLatLng({lng: clng, lat: clat});
-        marker.bindPopup(cnumber);
-        marker.openPopup();
-        map.flyTo([clat, clng], 15, {
-            speed: 0.5, pitch: 60, bearing: 180,
+    
+     var polygon = L.polygon(
+     poligonVertex
+     ).addTo(map).bindPopup('I am a polygon.');
+            
+    function cMarker(clng, clat, cnumber) {       
+    if (!map.hasLayer(marker)) {
+    map.addLayer(marker);
+    }
+    marker.setLatLng({lng: clng, lat: clat});
+    marker.bindPopup(cnumber);
+    marker.openPopup();
+    map.flyTo([clat, clng], 15, {
+    speed: 0.5, pitch: 60, bearing: 180,
             animate: true,
             duration: 2 // in seconds
-        });
-        map.map.flyTo({speed: 0.5, zoom: 15, pitch: 60, bearing: 180, center: [clng, clat]});
-        
-        //map.icons.marker.addWithPopup({lng: clng, lat: clat}, 'marker-sm.png', cnumber);
+    });
     }
 </script>

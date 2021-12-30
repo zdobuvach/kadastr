@@ -6,6 +6,7 @@ use Yii;
 use app\models\CadastralNumbers;
 use yii\data\Pagination;
 use yii\data\ArrayDataProvider;
+use app\models\Contour;
 
 class PointController extends \yii\web\Controller {
 
@@ -22,6 +23,26 @@ class PointController extends \yii\web\Controller {
 
     public function actionOutside() {
         return $this->viewPointsToMap('getPointFromCheckPattern', 'outside');
+    }
+
+    public function actionContour() {
+        $title = 'Contour Original';
+        $model = new Contour();
+
+        return $this->render('contour', [
+                    'poligons' => $model->getPolygons(Yii::$app->params['cadaster']['pathGdalOriginal']),
+                    'title' => $title
+        ]);
+    }
+
+    public function actionMy() {
+        $title = 'Contour My interpretation';
+        $model = new Contour();
+
+        return $this->render('contour', [
+                    'poligons' => $model->getPolygons(Yii::$app->params['cadaster']['pathGdal']),
+                    'title' => $title
+        ]);
     }
 
     public function viewPointsToMap($funGenArrayPoint, $checkPattern) {
@@ -111,11 +132,10 @@ class PointController extends \yii\web\Controller {
     }
 
     public function pointStringToCoordinates($pointString) {
-
         $coordinates = explode(",", $pointString);
         $result = array("lng" => $coordinates[0], "lat" => $coordinates[1]);
-        //$this->poligon[] = [$coordinates[0], $coordinates[1]];
-        $this->poligon[] = [$coordinates[1], $coordinates[0]];
+        unset($coordinates[2]);
+        $this->poligon[] = $coordinates;
         return $result;
     }
 

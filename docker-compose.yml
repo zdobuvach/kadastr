@@ -7,6 +7,9 @@ services:
       - ./:/app:delegated
     ports:
       - '8000:80'
+    build:
+      context: ./php
+      dockerfile: Dockerfile
   mariadb:
     image: mariadb:latest
     #restart: always

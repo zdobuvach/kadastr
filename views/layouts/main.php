@@ -58,6 +58,11 @@ AppAsset::register($this);
                             ['label' => 'Inside', 'url' => ['/point/inside']],
                             ['label' => 'Outside', 'url' => ['/point/outside']],
                         ]],
+                    ['label' => 'Trim contour', 'items' => [
+                            ['label' => 'Original', 'url' => ['/point/contour']],
+                            ['label' => 'My', 'url' => ['/point/my']],
+                            
+                        ]],
                 ],
             ]);
             NavBar::end();
