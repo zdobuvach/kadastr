@@ -30,6 +30,7 @@ class PointController extends \yii\web\Controller {
         $model = new Contour();
 
         return $this->render('contour', [
+                    'mapURL' => Yii::$app->params['cadaster']['mapURL'],
                     'poligons' => $model->getPolygons(Yii::$app->params['cadaster']['pathGdalOriginal']),
                     'title' => $title
         ]);
@@ -40,6 +41,7 @@ class PointController extends \yii\web\Controller {
         $model = new Contour();
 
         return $this->render('contour', [
+                    'mapURL' => Yii::$app->params['cadaster']['mapURL'],
                     'poligons' => $model->getPolygons(Yii::$app->params['cadaster']['pathGdal']),
                     'title' => $title
         ]);
@@ -74,8 +76,7 @@ class PointController extends \yii\web\Controller {
         $result = array();
         foreach ($data as $key => $point) {
             $check = $this->checkPointInPolygon($point, $poligon);
-            //echo $check;
-            //var_dump(!$checkPattern || ($checkPattern == $check));
+      
             if (!$checkPattern || ($checkPattern == $check)) {
                 $data[$key]['check'] = $check;
                 $result[] = $data[$key];
@@ -86,8 +87,7 @@ class PointController extends \yii\web\Controller {
     }
 
     public function checkPointInPolygon($point, $vertices, $pointOnVertex = true) {
-        //var_dump($vertices);
-        //die();
+       
         $this->pointOnVertex = $pointOnVertex;
 
 // Check if the point sits exactly on a vertex
@@ -150,8 +150,7 @@ class PointController extends \yii\web\Controller {
                 $result[] = $this->pointStringToCoordinates($vertex);
             }
         } else
-            Yii::warning($kmlFileName . " Файл не знайдено!");
-        //var_dump($coorStr);
+            Yii::warning($kmlFileName . " Файл не знайдено!");    
 
         return $result;
     }

@@ -29,47 +29,45 @@ $this->title = $title;
 
     var poligonsVertex = <?= $poligons ?>;
     var colors = ['ff00FF', '0000FF', 'FF0000', 'f0f00F', '0ff0f0']
-    color = colors[Math.floor(Math.random()*colors.length)];
+    color = colors[Math.floor(Math.random() * colors.length)];
     var mbAttr = '';
     var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
     var hillUrl = 'http://tiles.wmflabs.org/hillshading/{z}/{x}/{y}.png';
+    var ukrUrl = '<?= $mapURL ?>';
 
-
-    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: - 1, attribution: mbAttr});
-    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: - 1, attribution: mbAttr});
-    var hill = L.tileLayer(hillUrl, {id: 'mapbox/hill', tileSize: 512, zoomOffset: - 1, attribution: mbAttr});
-    //var ukr = L.tileLayer(ukrUrl, {id: '10', tileSize: 256, zoomOffset: -1, attribution: mbAttr});
-
+    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var hill = L.tileLayer(hillUrl, {id: 'mapbox/hill', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var ukr = L.tileLayer.wms(ukrUrl, {layers: 'kadastr', format: 'image/png'});
     startPoint = poligonsVertex['Shape'][0].slice(0);
     startPoint.reverse();
     var map = L.map('map', {
-    center: startPoint,
-            zoom: 16,
-            layers: [streets]
+        center: startPoint,
+        zoom: 16,
+        layers: [streets, ukr]
     });
-    
-        var polygons = new Array();
-        var polygonslayMaps = {};
-   // poligonsVertex.forEach(function(poliVer, index, array) {
-for (let index in poligonsVertex) {
-    poliVer = poligonsVertex[index].map(item => item.reverse());
-    console.log(poliVer);
-    polygon = L.polygon(
-            poliVer
-            ).addTo(map).bindPopup('I am a polygon ' + index);
-    color = '#' + colors[Math.floor(Math.random()*colors.length)];
-    polygon.setStyle({fillColor: color});
-    polygons.push(polygon);
-    polygonslayMaps['Polygon ' + index] = polygon;
-    //polygons.setStyle({fillColor: '#ff00FF'});
-    };    
-    //var polygonsLayer = L.layerGroup(polygons);
-    
+
+    var polygons = new Array();
+    var polygonslayMaps = {};
+    // poligonsVertex.forEach(function(poliVer, index, array) {
+    for (let index in poligonsVertex) {
+        poliVer = poligonsVertex[index].map(item => item.reverse());
+        console.log(poliVer);
+        polygon = L.polygon(
+                poliVer
+                ).addTo(map).bindPopup('I am a polygon ' + index);
+        color = '#' + colors[Math.floor(Math.random() * colors.length)];
+        polygon.setStyle({fillColor: color});
+        polygons.push(polygon);
+        polygonslayMaps["Kadastr"] = ukr;
+        polygonslayMaps['Polygon ' + index] = polygon;        
+    }   
+
     var baseLayers = {
-    'Grayscale': grayscale,
-            'Streets': streets,
-            'Hill': hill,
-            //'Kadastr': ukr
+        'Grayscale': grayscale,
+        'Streets': streets,
+        'Hill': hill,
+        //'Kadastr': ukr
     };
     var overlayMaps = polygonslayMaps;
     var layerControl = L.control.layers(baseLayers, overlayMaps).addTo(map);
